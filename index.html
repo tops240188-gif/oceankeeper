@@ -1,282 +1,45 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>Ocean Keeper</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import "tailwindcss" source(none);
-@source "../src";
-@import "tw-animate-css";
-
-@custom-variant dark (&:is(.dark *));
-
-@theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-
-  --color-ocean-deep: var(--ocean-deep);
-  --color-ocean-mid: var(--ocean-mid);
-  --color-ocean-shallow: var(--ocean-shallow);
-  --color-ocean-foam: var(--ocean-foam);
-  --color-coral: var(--coral);
-  --color-sand: var(--sand);
-  --color-seaweed: var(--seaweed);
-
-  --font-display: "Gaegu", "Jua", system-ui, sans-serif;
-  --font-body: "Jua", "Gaegu", system-ui, sans-serif;
-}
-
-:root {
-  --radius: 1rem;
-
-  /* Ocean palette */
-  --ocean-deep: oklch(0.32 0.11 240);
-  --ocean-mid: oklch(0.55 0.15 225);
-  --ocean-shallow: oklch(0.78 0.12 210);
-  --ocean-foam: oklch(0.96 0.03 200);
-  --coral: oklch(0.78 0.15 30);
-  --sand: oklch(0.92 0.06 85);
-  --seaweed: oklch(0.62 0.15 145);
-
-  --background: oklch(0.96 0.03 200);
-  --foreground: oklch(0.22 0.08 240);
-  --card: oklch(0.99 0.01 200 / 0.9);
-  --card-foreground: oklch(0.22 0.08 240);
-  --popover: oklch(0.99 0.01 200);
-  --popover-foreground: oklch(0.22 0.08 240);
-  --primary: oklch(0.55 0.15 225);
-  --primary-foreground: oklch(0.98 0.01 200);
-  --secondary: oklch(0.88 0.08 200);
-  --secondary-foreground: oklch(0.25 0.08 240);
-  --muted: oklch(0.92 0.04 210);
-  --muted-foreground: oklch(0.45 0.05 240);
-  --accent: oklch(0.78 0.15 30);
-  --accent-foreground: oklch(0.2 0.05 30);
-  --destructive: oklch(0.62 0.22 25);
-  --destructive-foreground: oklch(0.98 0.01 200);
-  --border: oklch(0.55 0.12 220 / 0.25);
-  --input: oklch(0.88 0.05 210);
-  --ring: oklch(0.55 0.15 225);
-}
-
-@layer base {
-  * {
-    border-color: var(--color-border);
-  }
-
-  html, body, #root {
-    height: 100%;
-  }
-
-  body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-    font-family: var(--font-body);
-    -webkit-tap-highlight-color: transparent;
-  }
-}
-
-/* ============ Ocean scene ============ */
-
-@utility ocean-bg {
-  background:
-    radial-gradient(ellipse at 50% 100%, oklch(0.42 0.14 235) 0%, transparent 60%),
-    linear-gradient(180deg,
-      oklch(0.78 0.12 210) 0%,
-      oklch(0.6 0.15 220) 35%,
-      oklch(0.42 0.14 235) 70%,
-      oklch(0.28 0.11 245) 100%);
-  position: relative;
-  overflow: hidden;
-}
-
-@utility light-rays {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(105deg, transparent 40%, oklch(1 0 0 / 0.08) 45%, transparent 50%),
-    linear-gradient(75deg, transparent 55%, oklch(1 0 0 / 0.06) 60%, transparent 65%);
-  animation: rays 12s ease-in-out infinite alternate;
-}
-
-@utility caustics {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 20% 10%, oklch(1 0 0 / 0.12), transparent 8%),
-    radial-gradient(circle at 70% 25%, oklch(1 0 0 / 0.1), transparent 6%),
-    radial-gradient(circle at 40% 60%, oklch(1 0 0 / 0.08), transparent 10%);
-  animation: caustics-shift 8s ease-in-out infinite alternate;
-}
-
-@keyframes rays {
-  from { transform: translateX(-5%); opacity: 0.6; }
-  to { transform: translateX(5%); opacity: 1; }
-}
-
-@keyframes caustics-shift {
-  from { transform: translate(0, 0) scale(1); }
-  to { transform: translate(2%, 1%) scale(1.05); }
-}
-
-/* Bubbles rising */
-@utility bubble {
-  position: absolute;
-  bottom: -40px;
-  border-radius: 9999px;
-  background: radial-gradient(circle at 30% 30%, oklch(1 0 0 / 0.9), oklch(0.9 0.05 210 / 0.3));
-  box-shadow: inset 0 0 4px oklch(1 0 0 / 0.5);
-  animation: bubble-rise linear infinite;
-  pointer-events: none;
-}
-
-@keyframes bubble-rise {
-  0% { transform: translateY(0) translateX(0); opacity: 0; }
-  10% { opacity: 0.7; }
-  100% { transform: translateY(-110vh) translateX(20px); opacity: 0; }
-}
-
-/* Creature swim animations */
-@keyframes swim-drift {
-  0%, 100% { transform: translateY(0) rotate(-2deg); }
-  50% { transform: translateY(-14px) rotate(2deg); }
-}
-
-@keyframes float-soft {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-@keyframes wobble {
-  0%, 100% { transform: rotate(-4deg); }
-  50% { transform: rotate(4deg); }
-}
-
-@utility swim-drift {
-  animation: swim-drift 4s ease-in-out infinite;
-}
-@utility float-soft {
-  animation: float-soft 3s ease-in-out infinite;
-}
-@utility wobble-slow {
-  animation: wobble 5s ease-in-out infinite;
-}
-
-/* Title shimmer */
-@keyframes shimmer {
-  0%, 100% { text-shadow: 0 4px 20px oklch(0.9 0.1 200 / 0.6), 0 0 40px oklch(0.8 0.15 210 / 0.4); }
-  50% { text-shadow: 0 4px 30px oklch(0.95 0.15 200 / 0.9), 0 0 60px oklch(0.85 0.2 210 / 0.7); }
-}
-@utility title-shimmer {
-  animation: shimmer 3s ease-in-out infinite;
-}
-
-/* Buttons */
-@utility btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.85rem 1.75rem;
-  border-radius: 9999px;
-  font-weight: 700;
-  font-size: 1.05rem;
-  color: var(--primary-foreground);
-  background: linear-gradient(135deg, oklch(0.65 0.16 210), oklch(0.5 0.17 235));
-  box-shadow: 0 8px 24px -6px oklch(0.4 0.15 235 / 0.6), inset 0 1px 0 oklch(1 0 0 / 0.35);
-  transition: transform 0.15s ease, box-shadow 0.2s ease;
-  cursor: pointer;
-  border: none;
-  &:hover { transform: translateY(-2px); box-shadow: 0 12px 30px -6px oklch(0.4 0.15 235 / 0.7), inset 0 1px 0 oklch(1 0 0 / 0.35); }
-  &:active { transform: translateY(0); }
-}
-
-@utility btn-coral {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  padding: 0.6rem 1.1rem;
-  border-radius: 9999px;
-  font-weight: 700;
-  color: white;
-  background: linear-gradient(135deg, oklch(0.82 0.16 40), oklch(0.68 0.19 25));
-  box-shadow: 0 6px 18px -4px oklch(0.6 0.2 30 / 0.55), inset 0 1px 0 oklch(1 0 0 / 0.35);
-  cursor: pointer;
-  border: none;
-  transition: transform 0.15s ease;
-  &:hover { transform: translateY(-2px); }
-  &:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-}
-
-@utility glass-card {
-  background: oklch(1 0 0 / 0.14);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid oklch(1 0 0 / 0.25);
-  border-radius: 1.5rem;
-  box-shadow: 0 20px 50px -10px oklch(0.15 0.08 240 / 0.4);
-}
-
-@utility panel-card {
-  background: oklch(0.98 0.02 210 / 0.95);
-  backdrop-filter: blur(20px);
-  border: 1px solid oklch(1 0 0 / 0.5);
-  border-radius: 1.5rem;
-  box-shadow: 0 25px 60px -15px oklch(0.15 0.08 240 / 0.5);
-}
-
-/* Sand floor */
-@utility sand-floor {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 90px;
-  background:
-    radial-gradient(ellipse at 30% 50%, oklch(0.85 0.08 75), oklch(0.75 0.1 65));
-  border-top-left-radius: 50% 40%;
-  border-top-right-radius: 50% 40%;
-  pointer-events: none;
-}
-
+        /* 모든 디자인을 파일 안에 포함시켰습니다 */
+        body { 
+            margin: 0; 
+            padding: 0; 
+            height: 100vh; 
+            background: linear-gradient(180deg, #0077be, #003366); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            color: white; 
+            font-family: sans-serif; 
+        }
+        .card { 
+            background: rgba(255, 255, 255, 0.2); 
+            padding: 40px; 
+            border-radius: 20px; 
+            text-align: center; 
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3); 
+        }
+        button { 
+            padding: 15px 30px; 
+            font-size: 18px; 
+            background: #ff7f50; 
+            border: none; 
+            border-radius: 50px; 
+            color: white; 
+            cursor: pointer; 
+        }
     </style>
 </head>
-<body class="ocean-bg h-screen w-full flex items-center justify-center">
-    <div class="glass-card p-8 text-center max-w-md">
-        <h1 class="text-4xl font-bold text-white mb-4 title-shimmer">Ocean Keeper</h1>
-        <p class="text-white mb-6">나만의 바다 수족관에 오신 것을 환영합니다!</p>
-        <button class="btn-primary">게임 시작하기</button>
+<body>
+    <div class="card">
+        <h1>Ocean Keeper</h1>
+        <p>수족관 게임에 오신 것을 환영합니다!</p>
+        <button onclick="alert('게임이 곧 업데이트됩니다!')">게임 시작하기</button>
     </div>
-    <div class="sand-floor"></div>
-    <div class="light-rays"></div>
-    <div class="caustics"></div>
 </body>
 </html>
