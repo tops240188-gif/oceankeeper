@@ -2,35 +2,29 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ocean Keeper</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root {
-            --radius: 1rem;
-            --ocean-deep: oklch(0.32 0.11 240);
-            --ocean-mid: oklch(0.55 0.15 225);
-            --ocean-shallow: oklch(0.78 0.12 210);
-            --ocean-foam: oklch(0.96 0.03 200);
-            --coral: oklch(0.78 0.15 30);
-            --sand: oklch(0.92 0.06 85);
-            --seaweed: oklch(0.62 0.15 145);
-            --background: oklch(0.96 0.03 200);
-            --foreground: oklch(0.22 0.08 240);
-            --primary: oklch(0.55 0.15 225);
-            --primary-foreground: oklch(0.98 0.01 200);
-            --border: oklch(0.55 0.12 220 / 0.25);
-        }
-        body { background-color: var(--background); color: var(--foreground); font-family: sans-serif; height: 100vh; margin: 0; }
+        /* 기본 환경 */
+        html, body { height: 100%; margin: 0; font-family: "Jua", sans-serif; }
+        
+        /* Ocean background (원래 효과 그대로 구현) */
         .ocean-bg {
-            background: radial-gradient(ellipse at 50% 100%, oklch(0.42 0.14 235) 0%, transparent 60%),
-                        linear-gradient(180deg, oklch(0.78 0.12 210) 0%, oklch(0.6 0.15 220) 35%, oklch(0.42 0.14 235) 70%, oklch(0.28 0.11 245) 100%);
-            position: relative; overflow: hidden; height: 100%;
+            background: radial-gradient(ellipse at 50% 100%, #4a7c9d 0%, transparent 60%),
+                        linear-gradient(180deg, #78c0e0 0%, #4a90e2 35%, #2a5a8a 70%, #1a3a5a 100%);
+            position: relative; overflow: hidden; height: 100vh;
         }
-        .light-rays { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(105deg, transparent 40%, oklch(1 0 0 / 0.08) 45%, transparent 50%), linear-gradient(75deg, transparent 55%, oklch(1 0 0 / 0.06) 60%, transparent 65%); animation: rays 12s ease-in-out infinite alternate; }
-        .caustics { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 20% 10%, oklch(1 0 0 / 0.12), transparent 8%), radial-gradient(circle at 70% 25%, oklch(1 0 0 / 0.1), transparent 6%), radial-gradient(circle at 40% 60%, oklch(1 0 0 / 0.08), transparent 10%); animation: caustics-shift 8s ease-in-out infinite alternate; }
-        .sand-floor { position: absolute; left: 0; right: 0; bottom: 0; height: 90px; background: radial-gradient(ellipse at 30% 50%, oklch(0.85 0.08 75), oklch(0.75 0.1 65)); border-top-left-radius: 50% 40%; border-top-right-radius: 50% 40%; }
-        .glass-card { background: oklch(1 0 0 / 0.14); backdrop-filter: blur(14px); border: 1px solid oklch(1 0 0 / 0.25); border-radius: 1.5rem; padding: 2rem; text-align: center; color: white; }
+
+        /* 애니메이션 효과들 */
+        .light-rays { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.08) 45%, transparent 50%), linear-gradient(75deg, transparent 55%, rgba(255,255,255,0.06) 60%, transparent 65%); animation: rays 12s ease-in-out infinite alternate; }
+        .caustics { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 20% 10%, rgba(255,255,255,0.12), transparent 8%), radial-gradient(circle at 70% 25%, rgba(255,255,255,0.1), transparent 6%); animation: caustics-shift 8s ease-in-out infinite alternate; }
+        .sand-floor { position: absolute; left: 0; right: 0; bottom: 0; height: 90px; background: radial-gradient(ellipse at 30% 50%, #d4b483, #c19a6b); border-top-left-radius: 50% 40%; border-top-right-radius: 50% 40%; }
+        
+        /* 카드 및 버튼 */
+        .glass-card { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 24px; padding: 2rem; text-align: center; color: white; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+        .btn-primary { background: linear-gradient(135deg, #4a90e2, #2a5a8a); padding: 15px 30px; border-radius: 999px; font-weight: bold; color: white; border: none; cursor: pointer; transition: transform 0.2s; }
+        .btn-primary:hover { transform: translateY(-5px); }
+
         @keyframes rays { from { transform: translateX(-5%); opacity: 0.6; } to { transform: translateX(5%); opacity: 1; } }
         @keyframes caustics-shift { from { transform: translate(0, 0) scale(1); } to { transform: translate(2%, 1%) scale(1.05); } }
     </style>
@@ -41,7 +35,8 @@
     <div class="flex items-center justify-center h-full">
         <div class="glass-card">
             <h1 class="text-4xl font-bold mb-4">Ocean Keeper</h1>
-            <button class="bg-blue-600 px-8 py-3 rounded-full font-bold">게임 시작하기</button>
+            <p class="mb-6">나만의 바다 수족관에 오신 것을 환영합니다!</p>
+            <button class="btn-primary" onclick="alert('게임 준비 중입니다!')">게임 시작하기</button>
         </div>
     </div>
     <div class="sand-floor"></div>
